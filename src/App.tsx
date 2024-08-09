@@ -1,12 +1,13 @@
-import { Button } from '@/components/ui/button'
+import Page from '@/app/page'
+import { ThemeProvider } from '@/components/theme-provider'
 
 
-export default function App() {
-
-
+function App() {
   return (
-    <div className="bg-red-600 p-16">
-      <Button>Click Me</Button>
-    </div>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <Page/>
+    </ThemeProvider>
   )
 }
+
+export default App
