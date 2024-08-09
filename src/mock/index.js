@@ -2,6 +2,7 @@ import { createServer } from 'miragejs';
 
 import data from './data.json';
 
+
 createServer({
   routes() {
     this.namespace = 'api';
@@ -9,5 +10,5 @@ createServer({
     this.get('/posts', () => {
       return data;
     });
-  },
+  }
 });
