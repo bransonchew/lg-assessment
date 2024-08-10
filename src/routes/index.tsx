@@ -1,31 +1,29 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.tsx'
-import { getPosts } from '@/lib/data'
-import { createFileRoute } from '@tanstack/react-router'
+import Filters from '@/components/filters'
+import PostList from '@/components/post-list'
+import { getPosts, Post } from '@/lib/data'
+import { Await, createFileRoute, defer } from '@tanstack/react-router'
+import { Suspense } from 'react'
 
 
 export const Route = createFileRoute('/')({
-  loader: getPosts,
+  loader: async () => ({
+    postsPromise: defer(getPosts()),
+  }),
   component: Posts,
 })
 
 function Posts() {
 
-  const posts = Route.useLoaderData()
+  const { postsPromise } = Route.useLoaderData()
 
   return (
     <div className="grid px-16 py-8 gap-3">
-      { posts.map((post, index) => (
-        <Card key={ index }>
-          <CardHeader>
-            <CardTitle className="capitalize">
-              { post.title }
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            { post.summary }
-          </CardContent>
-        </Card>
-      )) }
+      <Filters/>
+      <Suspense fallback={ <p>Loading...</p> }>
+        <Await promise={ postsPromise }>
+          { (posts: Post[]) => <PostList posts={ posts }/> }
+        </Await>
+      </Suspense>
     </div>
   )
 }

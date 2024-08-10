@@ -1,14 +1,21 @@
 import axios from 'axios'
 
 
-type Post = {
+export type Post = {
   id: string
   title: string
   summary: string
+  publishDate: string
 }
 
 export async function getPosts() {
   return axios
-    .get<{ posts: Post[] }>('/api/posts')
-    .then(res => res.data.posts.slice(0, 10))
+    .get('/api/posts')
+    .then<Post[]>(res => res.data)
+}
+
+export async function getCategories() {
+  return axios
+    .get('/api/categories')
+    .then(res => res.data)
 }

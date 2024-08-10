@@ -13,7 +13,7 @@ export default function Header() {
       </nav>
       <div className="flex items-center gap-8">
         <ModeToggle/>
-        <Button className="rounded-xl">Sign in</Button>
+        <Button className="rounded-3xl">Sign in</Button>
       </div>
     </header>
   )

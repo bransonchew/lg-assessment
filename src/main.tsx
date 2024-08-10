@@ -1,8 +1,8 @@
-// Include mock API
-import '@/mock'
-
 // Dark mode
 import { ThemeProvider } from '@/components/theme-provider'
+
+// Include mock API
+import { makeServer } from '@/mock'
 
 import { createRouter, RouterProvider } from '@tanstack/react-router'
 import React, { StrictMode } from 'react'
@@ -20,6 +20,10 @@ declare module '@tanstack/react-router' {
   interface Register {
     router: typeof router
   }
+}
+
+if (import.meta.env.DEV) {
+  makeServer({ environment: 'development' })
 }
 
 // Render the app
