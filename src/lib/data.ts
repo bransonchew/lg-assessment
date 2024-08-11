@@ -14,10 +14,21 @@ export type Post = {
   author: Author
 }
 
-export async function getPosts() {
+export async function getPosts({ pageParam }: { pageParam: number }) {
+
+  const limit = 5  // 5 posts per page
+
   return axios
-    .get('/api/posts')
-    .then<Post[]>(res => res.data)
+    .get('/api/posts', {
+      params: {
+        cursor: pageParam,
+        limit
+      },
+    })
+    .then<{ data: Post[], nextCursor: number }>(res => ({
+      data: res.data,
+      nextCursor: pageParam + limit,
+    }))
 }
 
 export async function getCategories() {

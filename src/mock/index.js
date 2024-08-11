@@ -29,9 +29,15 @@ export function makeServer({ environment = 'test' } = {}) {
     routes() {
       this.namespace = 'api'
 
-      this.get('/posts', schema => {
+      this.get('/posts', (schema, request) => {
+        // Infinite params
+        const cursor = Number(request.queryParams.cursor)
+        const limit = Number(request.queryParams.limit)
+
         const posts = schema.posts.all()
-        return posts.models.slice(0, 5)
+
+        // Pagination
+        return posts.models.slice(cursor, cursor + limit)
       })
 
       this.get('/categories', schema => {

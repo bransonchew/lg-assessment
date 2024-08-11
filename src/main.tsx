@@ -3,9 +3,10 @@ import { ThemeProvider } from '@/components/theme-provider'
 
 // Include mock API
 import { makeServer } from '@/mock'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import { createRouter, RouterProvider } from '@tanstack/react-router'
-import React, { StrictMode } from 'react'
+import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import './styles/index.css'
 
@@ -26,15 +27,20 @@ if (import.meta.env.DEV) {
   makeServer({ environment: 'development' })
 }
 
+// Create tanstack query client
+const queryClient = new QueryClient()
+
 // Render the app
 const rootElement = document.getElementById('root')!
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
-      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <RouterProvider router={ router }/>
-      </ThemeProvider>
+      <QueryClientProvider client={ queryClient }>
+        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+          <RouterProvider router={ router }/>
+        </ThemeProvider>
+      </QueryClientProvider>
     </StrictMode>,
   )
 }

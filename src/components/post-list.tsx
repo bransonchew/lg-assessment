@@ -10,8 +10,11 @@ export default function PostList({ posts }: { posts: Post[] }) {
   return (
     <div className="max-w-3xl divide-y">
       { posts.map((post, index) => (
-        <div key={ index } className="pt-6 pb-3">
+        <div key={ post.id } className="pt-6 pb-3">
+
+          {/*Post Link*/ }
           <Link className="">
+
             {/*Avatar*/ }
             <div className="flex items-center gap-2 mb-3">
               <Avatar className="size-6">
@@ -22,8 +25,11 @@ export default function PostList({ posts }: { posts: Post[] }) {
                 { post.author.name }
               </span>
             </div>
+
+            {/*Post Details*/ }
             <div className="flex justify-between gap-6">
-              {/*Post Details*/ }
+
+              {/*Post Text*/ }
               <div className="grow">
                 <div className="text-2xl font-bold capitalize mb-3">
                   { post.title }
@@ -31,20 +37,22 @@ export default function PostList({ posts }: { posts: Post[] }) {
                 <p className="text-muted-foreground mb-6">
                   { post.summary }
                 </p>
-                <div className="flex justify-between items-center pr-2">
+                <div className="flex justify-between items-center mr-3">
                   <span className="text-sm text-muted-foreground">
+                  <span>{ index + 1 }</span>
                     { formatDate(new Date(post.publishDate)) }
                   </span>
                   <div>
-                    <Button variant="ghost" size="icon">
+                  <Button variant="ghost" size="icon" aria-label="bookmark">
                       <Bookmark strokeWidth={ 1 }/>
                     </Button>
-                    <Button variant="ghost" size="icon">
+                    <Button variant="ghost" size="icon" aria-label="more">
                       <Ellipsis/>
                     </Button>
                   </div>
                 </div>
               </div>
+
               {/*Post Image*/ }
               <div className="flex-none">
                 <img
@@ -54,6 +62,7 @@ export default function PostList({ posts }: { posts: Post[] }) {
                   height={ 100 }
                 />
               </div>
+
             </div>
           </Link>
         </div>
