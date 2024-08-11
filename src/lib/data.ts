@@ -1,11 +1,17 @@
 import axios from 'axios'
 
 
+type Author = {
+  name: string
+  avatar: string
+}
+
 export type Post = {
   id: string
   title: string
   summary: string
   publishDate: string
+  author: Author
 }
 
 export async function getPosts() {

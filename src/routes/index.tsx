@@ -17,7 +17,7 @@ function Posts() {
   const { postsPromise } = Route.useLoaderData()
 
   return (
-    <div className="grid px-16 py-8 gap-3">
+    <div className="grid justify-center p-8 gap-3">
       <Filters/>
       <Suspense fallback={ <p>Loading...</p> }>
         <Await promise={ postsPromise }>
