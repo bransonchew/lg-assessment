@@ -1,3 +1,4 @@
+import { limit } from '@/lib/constants.ts'
 import axios from 'axios'
 
 
@@ -15,9 +16,6 @@ export type Post = {
 }
 
 export async function getPosts({ pageParam }: { pageParam: number }) {
-
-  const limit = 5  // 5 posts per page
-
   return axios
     .get('/api/posts', {
       params: {

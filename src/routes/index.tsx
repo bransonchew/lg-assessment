@@ -1,6 +1,8 @@
 import Filters from '@/components/filters'
 import PostList from '@/components/post-list'
 import { Button } from '@/components/ui/button.tsx'
+import { Skeleton } from '@/components/ui/skeleton.tsx'
+import { limit } from '@/lib/constants.ts'
 import { getPosts } from '@/lib/data'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
@@ -22,11 +24,11 @@ export const Route = createFileRoute('/')({
 
   // Search params
   // loaderDeps: ({ search: { filter } }) => ({ filter }),
-  loader: async () => ({
-    initialPosts: await getPosts({
-      pageParam: 0,
-    }),
-  }),
+  // loader: async () => ({
+  //   initialPosts: await getPosts({
+  //     pageParam: 0,
+  //   }),
+  // }),
 })
 
 function PostsLayout() {
@@ -49,38 +51,53 @@ function PostsLayout() {
   })
 
   return (
-    <div className="grid justify-center p-8 gap-6">
+    <div className="flex flex-col items-center p-8 gap-8">
 
       <Filters/>
 
-      {/*Loading Skeleton*/}
-      { status === 'pending' && <p>Loading...</p> }
-
-      {/*Post list*/}
-      { status === 'success' && (
+      {/*Post list*/ }
+      { status === 'success' &&
         <div className="divide-y">
           { data?.pages.map((group, index) => (
             <PostList key={ index } posts={ group.data }/>
           )) }
-        </div>
-      ) }
+        </div> }
 
-      {/*Post list load actions*/}
+      {/*Initial Loading Skeleton*/ }
+      { status === 'pending' &&
+        <div className="w-full max-w-3xl divide-y">
+          { Array.from(Array(limit)).map((_, index) => (
+            <div key={ index } className="grid gap-3 py-6">
+              <div className="flex gap-2 items-center">
+                <Skeleton className="size-8 rounded-3xl"/>
+                <Skeleton className="w-24 h-4 rounded-xl"/>
+              </div>
+              <div className="flex justify-between gap-6">
+                <div className="grow flex flex-col gap-3 py-1">
+                  <Skeleton className="w-11/12 h-6 rounded-xl"/>
+                  <Skeleton className="w-2/3 h-4 rounded-xl"/>
+                  <Skeleton className="w-1/3 h-4 rounded-xl"/>
+                </div>
+                <Skeleton className="w-36 h-24"/>
+              </div>
+            </div>
+          )) }
+        </div> }
+
+      {/*Post list load actions*/ }
       <div className="flex justify-center">
         { hasNextPage
-          ? (
-            <Button
-              onClick={ () => fetchNextPage() }
-              disabled={ isFetchingNextPage }
-            >
-              { isFetchingNextPage
-                ? <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin"/>
-                  Loading
-                </>
-                : 'Load More' }
-            </Button>
-          )
+          ? <Button
+            onClick={ () => fetchNextPage() }
+            disabled={ isFetchingNextPage }
+          >
+            { isFetchingNextPage
+              ? <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin"/>
+                Loading
+              </>
+              : 'Load More' }
+          </Button>
           : <Dot size={ 32 } className="text-muted-foreground"/>
         }
       </div>

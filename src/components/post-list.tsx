@@ -66,6 +66,7 @@ export default function PostList({ posts }: { posts: Post[] }) {
             </div>
 
           </Link>
+
         </div>
       )) }
     </div>

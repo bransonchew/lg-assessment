@@ -42,7 +42,7 @@ export function makeServer({ environment = 'test' } = {}) {
           data: posts.models.slice(cursor, nextCursor),
           nextCursor: nextCursor < posts.models.length ? nextCursor : null,
         }
-      })
+      }, { timing: 1000 })
 
       this.get('/categories', schema => {
         return schema.categories.all()
