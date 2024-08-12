@@ -15,7 +15,7 @@ export default function PostList({ posts }: { posts: Post[] }) {
           {/*Post Link*/ }
           <Link className="">
 
-            {/*Avatar*/ }
+            {/*Author*/ }
             <div className="flex items-center gap-2 mb-3">
               <Avatar className="size-6">
                 <AvatarImage src={ post.author.avatar }/>
@@ -37,13 +37,13 @@ export default function PostList({ posts }: { posts: Post[] }) {
                 <p className="text-muted-foreground mb-6">
                   { post.summary }
                 </p>
-                <div className="flex justify-between items-center mr-3">
-                  <span className="text-sm text-muted-foreground">
-                  <span>{ index + 1 }</span>
+                <div className="flex justify-between items-center mr-3 text-muted-foreground">
+                  <span className="text-sm">
+                    <span>{ index + 1 }</span>
                     { formatDate(new Date(post.publishDate)) }
                   </span>
                   <div>
-                  <Button variant="ghost" size="icon" aria-label="bookmark">
+                    <Button variant="ghost" size="icon" aria-label="bookmark">
                       <Bookmark strokeWidth={ 1 }/>
                     </Button>
                     <Button variant="ghost" size="icon" aria-label="more">
@@ -64,6 +64,7 @@ export default function PostList({ posts }: { posts: Post[] }) {
               </div>
 
             </div>
+
           </Link>
         </div>
       )) }

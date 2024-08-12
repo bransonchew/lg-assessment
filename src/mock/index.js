@@ -37,7 +37,11 @@ export function makeServer({ environment = 'test' } = {}) {
         const posts = schema.posts.all()
 
         // Pagination
-        return posts.models.slice(cursor, cursor + limit)
+        const nextCursor = cursor + limit
+        return {
+          data: posts.models.slice(cursor, nextCursor),
+          nextCursor: nextCursor < posts.models.length ? nextCursor : null,
+        }
       })
 
       this.get('/categories', schema => {

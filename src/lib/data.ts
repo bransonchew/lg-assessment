@@ -25,10 +25,7 @@ export async function getPosts({ pageParam }: { pageParam: number }) {
         limit
       },
     })
-    .then<{ data: Post[], nextCursor: number }>(res => ({
-      data: res.data,
-      nextCursor: pageParam + limit,
-    }))
+    .then<{ data: Post[], nextCursor: number | null }>(res => res.data)
 }
 
 export async function getCategories() {
