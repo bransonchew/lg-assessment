@@ -3,7 +3,7 @@ import PostList from '@/components/post-list'
 import { Button } from '@/components/ui/button.tsx'
 import { Skeleton } from '@/components/ui/skeleton.tsx'
 import { limit } from '@/lib/constants.ts'
-import { getPosts } from '@/lib/data'
+import { getCategories, getPosts } from '@/lib/data'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { Dot, Loader2 } from 'lucide-react'
@@ -23,15 +23,21 @@ export const Route = createFileRoute('/')({
   validateSearch: postSearchSchema,
 
   // Search params
-  // loaderDeps: ({ search: { filter } }) => ({ filter }),
-  // loader: async () => ({
-  //   initialPosts: await getPosts({
-  //     pageParam: 0,
-  //   }),
-  // }),
+  loaderDeps: ({ search: { filter } }) => ({ filter }),
+  loader: async () => ({
+    // initialPosts: await getPosts({
+    //   pageParam: 0,
+    // }),
+    categories: await getCategories(),
+  }),
 })
 
 function PostsLayout() {
+
+  // Filter categories
+  const { categories } = Route.useLoaderData()
+
+  console.log('categories', categories)
 
   // Infinite querying / Load more
   const {
@@ -53,11 +59,13 @@ function PostsLayout() {
   return (
     <div className="flex flex-col items-center p-8 gap-8">
 
-      <Filters/>
+      <div className="max-w-3xl">
+        <Filters categories={ categories }/>
+      </div>
 
       {/*Post list*/ }
       { status === 'success' &&
-        <div className="divide-y">
+        <div className="max-w-3xl divide-y">
           { data?.pages.map((group, index) => (
             <PostList key={ index } posts={ group.data }/>
           )) }

@@ -1,14 +1,14 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button.tsx'
-import { Post } from '@/lib/data.ts'
-import { formatDate } from '@/lib/utils.ts'
+import { Post } from '@/lib/types'
+import { formatDate } from '@/lib/utils'
 import { Link } from '@tanstack/react-router'
 import { Bookmark, Ellipsis } from 'lucide-react'
 
 
 export default function PostList({ posts }: { posts: Post[] }) {
   return (
-    <div className="max-w-3xl divide-y">
+    <div className="divide-y">
       { posts.map((post, index) => (
         <div key={ post.id } className="pt-6 pb-3">
 

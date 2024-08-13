@@ -21,7 +21,10 @@ export function makeServer({ environment = 'test' } = {}) {
 
           // Insert along categories
           category: post.categories.map(
-            cat => server.schema.categories.findOrCreateBy({ ...cat }),
+            cat => server.schema.categories.findOrCreateBy(
+              { name: cat.name },
+              { ...cat },
+            ),
           ),
         })
       })
@@ -45,7 +48,7 @@ export function makeServer({ environment = 'test' } = {}) {
       }, { timing: 1000 })
 
       this.get('/categories', schema => {
-        return schema.categories.all()
+        return schema.categories.all().models
       })
     },
   })
