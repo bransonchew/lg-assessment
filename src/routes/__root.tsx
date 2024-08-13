@@ -1,7 +1,7 @@
 import Footer from '@/components/footer'
 import Header from '@/components/header'
 import { createRootRoute, Outlet } from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/router-devtools'
+// import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 
 
 export const Route = createRootRoute({
@@ -10,7 +10,7 @@ export const Route = createRootRoute({
       <Header/>
       <Outlet/>
       <Footer/>
-      <TanStackRouterDevtools/>
+      {/*<TanStackRouterDevtools/>*/}
     </>
   ),
 })

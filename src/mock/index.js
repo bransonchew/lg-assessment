@@ -33,11 +33,17 @@ export function makeServer({ environment = 'test' } = {}) {
       this.namespace = 'api'
 
       this.get('/posts', (schema, request) => {
-        // Infinite params
+        // Search params
         const cursor = Number(request.queryParams.cursor)
         const limit = Number(request.queryParams.limit)
+        const filter = request.queryParams.filter
 
-        const posts = schema.posts.all()
+        // Filter by category
+        const posts = filter
+          ? schema.posts.where(
+            post => post.categories.some(cat => cat.name === filter),
+          )
+          : schema.posts.all()
 
         // Pagination
         const nextCursor = cursor + limit

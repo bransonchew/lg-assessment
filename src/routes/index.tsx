@@ -25,19 +25,17 @@ export const Route = createFileRoute('/')({
   // Search params
   loaderDeps: ({ search: { filter } }) => ({ filter }),
   loader: async () => ({
-    // initialPosts: await getPosts({
-    //   pageParam: 0,
-    // }),
     categories: await getCategories(),
   }),
 })
 
 function PostsLayout() {
 
-  // Filter categories
+  // Categories for filter
   const { categories } = Route.useLoaderData()
 
-  console.log('categories', categories)
+  // Search params
+  const { filter } = Route.useSearch()
 
   // Infinite querying / Load more
   const {
@@ -50,16 +48,16 @@ function PostsLayout() {
     status,
   } = useInfiniteQuery({
     queryKey: ['posts'],
-    queryFn: getPosts,
+    queryFn: p => getPosts({ ...p, filter }),
     initialPageParam: 0,
     getNextPageParam: lastPage => lastPage.nextCursor,
-    staleTime: 30_000,  // revalidate after 30 seconds
+    // staleTime: 30_000,  // revalidate after 30 seconds
   })
 
   return (
     <div className="flex flex-col items-center p-8 gap-8">
 
-      <div className="max-w-3xl">
+      <div className="w-full max-w-3xl">
         <Filters categories={ categories }/>
       </div>
 

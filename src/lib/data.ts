@@ -3,12 +3,13 @@ import { Category, Post } from '@/lib/types'
 import axios from 'axios'
 
 
-export async function getPosts({ pageParam }: { pageParam: number }) {
+export async function getPosts({ pageParam, filter }: { pageParam: number, filter?: string }) {
   return axios
     .get('/api/posts', {
       params: {
         cursor: pageParam,
         limit,
+        filter
       },
     })
     .then<{ data: Post[], nextCursor: number | null }>(res => res.data)

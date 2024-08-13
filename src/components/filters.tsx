@@ -1,4 +1,4 @@
-import { Category } from '@/lib/types.ts'
+import { Category } from '@/lib/types'
 import { Link } from '@tanstack/react-router'
 import { ChevronLeft, ChevronRight, Plus } from 'lucide-react'
 import { useRef } from 'react'
@@ -58,15 +58,25 @@ export default function Filters({ categories }: { categories: Category[] }) {
           </button> }
 
         {/*Categories*/ }
-        { [{ id: -1, name: 'All' }, ...categories].map((cat, index) => (
+        <Link
+          className="text-sm text-nowrap"
+          // Search params
+          search={ { filter: undefined } }
+          // Scrolling props
+          ref={ firstRef }
+        >
+          All
+        </Link>
+        { categories.map((cat, index) => (
           <Link
             key={ cat.id }
             className="text-sm text-nowrap"
-            ref={ index === 0
-              ? firstRef
-              : index === categories.length
-                ? lastRef
-                : undefined }
+            // Search params
+            search={ { filter: cat.name } }
+            // Scrolling props
+            ref={ index === categories.length
+              ? lastRef
+              : undefined }
           >
             { cat.name }
           </Link>
