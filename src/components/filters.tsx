@@ -88,7 +88,7 @@ export default function Filters({ categories }: { categories: Category[] }) {
           disabled={ lastInView }
           className="absolute right-0 bg-gradient-to-r from-transparent via-white/80 to-white pl-8 py-4 border-b"
         >
-          <ChevronRight size={ 20 } className={ cn(lastInView && 'text-transparent') }/>
+          <ChevronRight size={ 20 } className={ cn(lastInView && 'invisible') }/>
         </button>
       </div>
     </div>

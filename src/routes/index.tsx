@@ -27,7 +27,7 @@ export const Route = createFileRoute('/')({
   loader: async () => ({
     categories: await getCategories(),
   }),
-  staleTime: Infinity,
+  staleTime: Infinity,  // Never stale
 })
 
 function PostsLayout() {
@@ -53,13 +53,13 @@ function PostsLayout() {
     queryFn: p => getPosts({ ...p, filter }),
     initialPageParam: 0,
     getNextPageParam: lastPage => lastPage.nextCursor,
-    staleTime: Infinity,  // revalidate after 30 seconds
+    staleTime: 60_000,  // revalidate after 60 seconds
   })
 
   return (
     <div className="flex flex-col items-center p-8 gap-8">
 
-      <div className="w-full max-w-3xl">
+      <div className="w-full max-w-3xl sticky top-0 bg-white">
         <Filters categories={ categories }/>
       </div>
 
