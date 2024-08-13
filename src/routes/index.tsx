@@ -7,7 +7,6 @@ import { getCategories, getPosts } from '@/lib/data'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { Dot, Loader2 } from 'lucide-react'
-import { useEffect } from 'react'
 import { z } from 'zod'
 
 
@@ -28,6 +27,7 @@ export const Route = createFileRoute('/')({
   loader: async () => ({
     categories: await getCategories(),
   }),
+  staleTime: Infinity,
 })
 
 function PostsLayout() {
@@ -46,19 +46,15 @@ function PostsLayout() {
     hasNextPage,
     isFetching,
     isFetchingNextPage,
-    refetch,
-    isSuccess
+    isSuccess,
+    isRefetching,
   } = useInfiniteQuery({
-    queryKey: ['posts'],
+    queryKey: ['posts', filter],
     queryFn: p => getPosts({ ...p, filter }),
     initialPageParam: 0,
     getNextPageParam: lastPage => lastPage.nextCursor,
-    // staleTime: 30_000,  // revalidate after 30 seconds
+    staleTime: Infinity,  // revalidate after 30 seconds
   })
-
-  useEffect(() => {
-    refetch()
-  }, [filter])
 
   return (
     <div className="flex flex-col items-center p-8 gap-8">
@@ -68,7 +64,7 @@ function PostsLayout() {
       </div>
 
       {/*Post list*/ }
-      { isSuccess &&
+      { isSuccess && !isRefetching &&
         <div className="max-w-3xl divide-y">
           { data?.pages.map((group, index) => (
             <PostList key={ index } posts={ group.data }/>
@@ -101,9 +97,9 @@ function PostsLayout() {
         { hasNextPage
           ? <Button
             onClick={ () => fetchNextPage() }
-            disabled={ isFetchingNextPage }
+            disabled={ isFetchingNextPage || isRefetching }
           >
-            { isFetchingNextPage
+            { isFetchingNextPage || isRefetching
               ? <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin"/>
                 Loading
