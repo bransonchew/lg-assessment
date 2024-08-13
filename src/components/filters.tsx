@@ -1,4 +1,5 @@
 import { Category } from '@/lib/types'
+import { cn } from '@/lib/utils'
 import { Link } from '@tanstack/react-router'
 import { ChevronLeft, ChevronRight, Plus } from 'lucide-react'
 import { useRef } from 'react'
@@ -37,59 +38,58 @@ export default function Filters({ categories }: { categories: Category[] }) {
   })
 
   return (
-    <div className="relative pb-4 border-b text-muted-foreground">
+    <div className="relative text-muted-foreground">
       <div
         ref={ scrollContainerRef }
-        className="flex items-center gap-6 overflow-x-auto scrollbar-hide pr-8"
+        className="flex items-center overflow-x-auto scrollbar-hide px-8"
       >
 
         {/*Follow more categories / Scroll left*/ }
-        { firstInView
-          ?
-          <button>
-            <Plus size={ 20 } strokeWidth={ 1.5 }/>
-          </button>
-          :
-          <button
-            onClick={ scrollLeft }
-            className="absolute left-0 bg-gradient-to-l from-transparent via-white/80 to-white pr-12"
-          >
-            <ChevronLeft size={ 20 }/>
-          </button> }
+        <button
+          onClick={ scrollLeft }
+          className="absolute left-0 bg-gradient-to-l from-transparent via-white/80 to-white pr-8 py-4 border-b"
+        >
+          { firstInView
+            ? <Plus size={ 20 } strokeWidth={ 1.75 }/>
+            : <ChevronLeft size={ 20 }/> }
+        </button>
 
         {/*Categories*/ }
-        <Link
-          className="text-sm text-nowrap"
-          // Search params
-          search={ { filter: undefined } }
-          // Scrolling props
-          ref={ firstRef }
-        >
-          All
-        </Link>
-        { categories.map((cat, index) => (
+        { [{ id: -1, name: 'All' }, ...categories].map((cat, index) => (
           <Link
             key={ cat.id }
             className="text-sm text-nowrap"
             // Search params
-            search={ { filter: cat.name } }
+            search={ { filter: index === 0 ? undefined : cat.name } }
             // Scrolling props
-            ref={ index === categories.length
-              ? lastRef
-              : undefined }
+            ref={ index === 0
+              ? firstRef
+              : index === categories.length
+                ? lastRef
+                : undefined }
+            activeOptions={ { exact: true } }
           >
-            { cat.name }
+            { ({ isActive }) => (
+              <div
+                className={ cn(
+                  'p-4 border-b',
+                  isActive && 'text-foreground font-medium border-b border-b-foreground',
+                ) }
+              >
+                { cat.name }
+              </div>
+            ) }
           </Link>
         )) }
 
         {/*Scroll right*/ }
-        { !lastInView &&
-          <button
-            onClick={ scrollRight }
-            className="absolute right-0 bg-gradient-to-r from-transparent via-white/80 to-white pl-12"
-          >
-            <ChevronRight size={ 20 }/>
-          </button> }
+        <button
+          onClick={ scrollRight }
+          disabled={ lastInView }
+          className="absolute right-0 bg-gradient-to-r from-transparent via-white/80 to-white pl-8 py-4 border-b"
+        >
+          <ChevronRight size={ 20 } className={ cn(lastInView && 'text-transparent') }/>
+        </button>
       </div>
     </div>
   )

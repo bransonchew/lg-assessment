@@ -7,6 +7,7 @@ import { getCategories, getPosts } from '@/lib/data'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { Dot, Loader2 } from 'lucide-react'
+import { useEffect } from 'react'
 import { z } from 'zod'
 
 
@@ -43,9 +44,10 @@ function PostsLayout() {
     // error,
     fetchNextPage,
     hasNextPage,
-    // isFetching,
+    isFetching,
     isFetchingNextPage,
-    status,
+    refetch,
+    isSuccess
   } = useInfiniteQuery({
     queryKey: ['posts'],
     queryFn: p => getPosts({ ...p, filter }),
@@ -53,6 +55,10 @@ function PostsLayout() {
     getNextPageParam: lastPage => lastPage.nextCursor,
     // staleTime: 30_000,  // revalidate after 30 seconds
   })
+
+  useEffect(() => {
+    refetch()
+  }, [filter])
 
   return (
     <div className="flex flex-col items-center p-8 gap-8">
@@ -62,7 +68,7 @@ function PostsLayout() {
       </div>
 
       {/*Post list*/ }
-      { status === 'success' &&
+      { isSuccess &&
         <div className="max-w-3xl divide-y">
           { data?.pages.map((group, index) => (
             <PostList key={ index } posts={ group.data }/>
@@ -70,7 +76,7 @@ function PostsLayout() {
         </div> }
 
       {/*Initial Loading Skeleton*/ }
-      { status === 'pending' &&
+      { isFetching &&
         <div className="w-full max-w-3xl divide-y">
           { Array.from(Array(limit)).map((_, index) => (
             <div key={ index } className="grid gap-3 py-6">
