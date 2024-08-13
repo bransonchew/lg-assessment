@@ -41,13 +41,13 @@ export default function Filters({ categories }: { categories: Category[] }) {
     <div className="relative text-muted-foreground">
       <div
         ref={ scrollContainerRef }
-        className="flex items-center overflow-x-auto scrollbar-hide px-8"
+        className="flex items-center overflow-x-auto scrollbar-hide"
       >
 
         {/*Follow more categories / Scroll left*/ }
         <button
           onClick={ scrollLeft }
-          className="absolute left-0 bg-gradient-to-l from-transparent via-white/80 to-white pr-8 py-4 border-b"
+          className="sticky left-0 bg-gradient-to-l from-transparent via-white/80 to-white pr-4 py-4 border-b"
         >
           { firstInView
             ? <Plus size={ 20 } strokeWidth={ 1.75 }/>
@@ -86,7 +86,7 @@ export default function Filters({ categories }: { categories: Category[] }) {
         <button
           onClick={ scrollRight }
           disabled={ lastInView }
-          className="absolute right-0 bg-gradient-to-r from-transparent via-white/80 to-white pl-8 py-4 border-b"
+          className="sticky right-0 bg-gradient-to-r from-transparent via-white/80 to-white pl-4 py-4 border-b"
         >
           <ChevronRight size={ 20 } className={ cn(lastInView && 'invisible') }/>
         </button>
