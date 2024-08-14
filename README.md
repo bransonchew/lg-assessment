@@ -1,50 +1,83 @@
-# React + TypeScript + Vite
+# Vite React TypeScript Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to the Vite React TypeScript project! This README provides an overview of the project, including setup instructions, commands, and the technology stack used.
 
-Currently, two official plugins are available:
+## Getting Started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+To get started with the project, follow these steps:
 
-## Expanding the ESLint configuration
+### 1. Clone the Repository
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+git clone https://github.com/bransonchew/lg-assessment.git
+cd lg-assessment
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### 2. Install Dependencies
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+npm install
 ```
+
+### 3. Run the Development Server
+
+```bash
+npm run dev
+```
+
+This will start the project in development mode, and you can access it at http://localhost:3000.
+
+### 4. Build for Production
+
+To build the project for production, use:
+
+```bash
+npm run build
+```
+
+This will generate a dist folder with the optimized production build.
+
+### 5. Preview the Production Build
+
+To preview the production build locally, use:
+
+```bash
+npm run preview
+```
+
+## Project Structure
+Here is a brief overview of the project structure:
+
+```bash
+/src
+  /routes     # Main application files for routing
+  /components # Reusable UI components
+  /styles     # Global and component-specific styles
+  /mock       # Mock server and data
+  /lib        # API, utility functions, and others
+  main.tsx    # Application entry point
+```
+
+## Technology Stack
+
+This project utilizes various technologies, grouped by their role:
+
+### Core Technologies
+- Vite - Fast build tool through HMR
+- React - Main JavaScript library
+- TypeScript - Strongly typed JavaScript
+
+### Styling
+- Tailwind CSS - Utility-first CSS framework for rapid UI development
+- ShadCN UI - Beautiful Tailwind components library that you can copy and paste into your apps
+
+### State Management
+- Axios - HTTP client for making requests
+- TanStack Query - Query library for infinite data-fetching and caching
+
+### Routing
+- TanStack Router - Flexible and type-safe routing solution
+- Zod - Search params validation
+
+### Mocking and Testing
+- MirageJS - API mocking library
