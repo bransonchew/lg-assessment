@@ -14,4 +14,5 @@ export type Post = {
   summary: string
   publishDate: string
   author: Author
+  categories: Category[]
 }

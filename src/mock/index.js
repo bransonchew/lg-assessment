@@ -32,6 +32,8 @@ export function makeServer({ environment = 'test' } = {}) {
     routes() {
       this.namespace = 'api'
 
+      this.get('/posts/:id')
+
       this.get('/posts', (schema, request) => {
         // Search params
         const cursor = Number(request.queryParams.cursor)

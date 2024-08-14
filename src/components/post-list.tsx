@@ -13,7 +13,7 @@ export default function PostList({ posts }: { posts: Post[] }) {
         <div key={ post.id } className="pt-6 pb-3">
 
           {/*Post Link*/ }
-          <Link className="">
+          <Link to="/$postId" params={ { postId: post.id } }>
 
             {/*Author*/ }
             <div className="flex items-center gap-2 mb-3">
@@ -43,10 +43,10 @@ export default function PostList({ posts }: { posts: Post[] }) {
                     { formatDate(new Date(post.publishDate)) }
                   </span>
                   <div>
-                    <Button variant="ghost" size="icon" aria-label="bookmark">
+                    <Button variant="ghost" size="icon" aria-label="bookmark" className="hover:bg-inherit">
                       <Bookmark strokeWidth={ 1 }/>
                     </Button>
-                    <Button variant="ghost" size="icon" aria-label="more">
+                    <Button variant="ghost" size="icon" aria-label="more" className="hover:bg-inherit">
                       <Ellipsis/>
                     </Button>
                   </div>

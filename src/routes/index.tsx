@@ -20,6 +20,8 @@ export type PostSearch = z.infer<typeof postSearchSchema>
 // Route config
 export const Route = createFileRoute('/')({
   component: PostsLayout,
+
+  // Validate search params
   validateSearch: postSearchSchema,
 
   // Search params
@@ -27,7 +29,7 @@ export const Route = createFileRoute('/')({
   loader: async () => ({
     categories: await getCategories(),
   }),
-  staleTime: Infinity,  // Never stale
+  staleTime: Infinity,  // categories rarely change
 })
 
 function PostsLayout() {
@@ -59,8 +61,9 @@ function PostsLayout() {
   return (
     <div className="flex flex-col items-center p-8 gap-8">
 
+      {/*Category select*/}
       <div className="w-full max-w-3xl sticky top-0 bg-white">
-        <Filters categories={ categories }/>
+        <Filters categories={ categories } selectedFilter={ filter }/>
       </div>
 
       {/*Post list*/ }

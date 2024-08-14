@@ -3,6 +3,12 @@ import { Category, Post } from '@/lib/types'
 import axios from 'axios'
 
 
+export async function getPost(postId: string) {
+  return axios
+    .get(`/api/posts/${ postId }`)
+    .then<Post>(res => res.data.post)
+}
+
 export async function getPosts({ pageParam, filter }: { pageParam: number, filter?: string }) {
   return axios
     .get('/api/posts', {

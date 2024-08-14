@@ -2,16 +2,35 @@ import { Category } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import { Link } from '@tanstack/react-router'
 import { ChevronLeft, ChevronRight, Plus } from 'lucide-react'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useInView } from 'react-intersection-observer'
 
 
-export default function Filters({ categories }: { categories: Category[] }) {
+type Props = {
+  categories: Category[]
+  selectedFilter?: string
+}
+
+export default function Filters({ categories, selectedFilter }: Props) {
+
+  // console.log('s', selectedFilter)
 
   // Horizontal scroll
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const scrollAmount = 200
 
+  // Hide horizontal scroll chevrons
+  const [firstRef, firstInView] = useInView({
+    threshold: 1,
+  })
+  const [lastRef, lastInView] = useInView({
+    threshold: 1,
+  })
+
+  // Selected category
+  const selectedRef = useRef<HTMLDivElement>(null)
+
+  // Chevrons
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollBy({
@@ -29,13 +48,22 @@ export default function Filters({ categories }: { categories: Category[] }) {
     }
   }
 
-  // Hide left/right scroll chevron
-  const [firstRef, firstInView] = useInView({
-    threshold: 1,
-  })
-  const [lastRef, lastInView] = useInView({
-    threshold: 1,
-  })
+  // Scroll to the selected filter when the component mounts
+  useEffect(() => {
+    if (scrollContainerRef.current && selectedRef.current) {
+
+      const containerWidth = scrollContainerRef.current.offsetWidth
+      const selectedOffsetLeft = selectedRef.current.offsetLeft
+      const selectedWidth = selectedRef.current.offsetWidth
+
+      // Calculate scroll position to center the selected filter
+      const scrollPosition = selectedOffsetLeft - (containerWidth / 2) + (selectedWidth / 2)
+
+      scrollContainerRef.current.scrollTo({
+        left: scrollPosition,
+      })
+    }
+  }, [])
 
   return (
     <div className="relative text-muted-foreground">
@@ -66,11 +94,12 @@ export default function Filters({ categories }: { categories: Category[] }) {
               ? firstRef
               : index === categories.length
                 ? lastRef
-                : undefined }
+                : null }
             activeOptions={ { exact: true } }
           >
             { ({ isActive }) => (
               <div
+                ref={ selectedFilter === cat.name ? selectedRef : null }
                 className={ cn(
                   'p-4 border-b',
                   isActive && 'text-foreground font-medium border-b border-b-foreground',
