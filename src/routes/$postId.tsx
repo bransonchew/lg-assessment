@@ -136,16 +136,16 @@ function PostSkeleton() {
     <div className="grid items-center gap-12 max-w-2xl px-6 py-16 mx-auto">
       <div className="space-y-6">
         <div className="space-y-3.5">
-          <Skeleton className="w-11/12 h-16 rounded-2xl"/>
-          <Skeleton className="w-5/6 h-6 rounded-2xl"/>
-          <Skeleton className="w-2/3 h-6 rounded-2xl"/>
+          <Skeleton className="w-11/12 h-16 rounded-xl"/>
+          <Skeleton className="w-5/6 h-6 rounded-xl"/>
+          <Skeleton className="w-2/3 h-6 rounded-xl"/>
         </div>
         <div className="flex items-center gap-2">
-          <Skeleton className="size-8 rounded-2xl"/>
-          <Skeleton className="w-36 h-6 rounded-2xl"/>
+          <Skeleton className="size-8 rounded-xl"/>
+          <Skeleton className="w-36 h-6 rounded-xl"/>
         </div>
+        <Separator/>
       </div>
-      <Separator/>
       <Skeleton className="aspect-[3/2] w-full"/>
       <div className="grid gap-3.5">
         <Skeleton className="w-full h-6 rounded-lg"/>

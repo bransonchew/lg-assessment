@@ -1,5 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button.tsx'
+import { Skeleton } from '@/components/ui/skeleton.tsx'
+import { limit } from '@/lib/constants.ts'
 import { Post } from '@/lib/types'
 import { formatDate } from '@/lib/utils'
 import { Link } from '@tanstack/react-router'
@@ -84,5 +86,28 @@ export default function PostList({ posts }: { posts: Post[] }) {
         </div>
       )) }
     </div>
+  )
+}
+
+export function PostListSkeleton() {
+  return (
+    <>
+      { Array.from(Array(limit)).map((_, index) => (
+        <div key={ index } className="grid gap-3 py-6">
+          <div className="flex gap-2 items-center">
+            <Skeleton className="size-8 rounded-3xl"/>
+            <Skeleton className="w-24 h-4 rounded-xl"/>
+          </div>
+          <div className="flex justify-between gap-6">
+            <div className="grow flex flex-col gap-3 py-1">
+              <Skeleton className="w-11/12 h-6 rounded-xl"/>
+              <Skeleton className="w-2/3 h-4 rounded-xl"/>
+              <Skeleton className="w-1/3 h-4 rounded-xl"/>
+            </div>
+            <Skeleton className="aspect-[3/2] w-20 sm:w-36"/>
+          </div>
+        </div>
+      )) }
+    </>
   )
 }
