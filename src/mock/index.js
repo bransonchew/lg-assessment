@@ -32,7 +32,7 @@ export function makeServer({ environment = 'test' } = {}) {
     routes() {
       this.namespace = 'api'
 
-      this.get('/posts/:id')
+      this.get('/posts/:id', { timing: 500 })
 
       this.get('/posts', (schema, request) => {
         // Search params

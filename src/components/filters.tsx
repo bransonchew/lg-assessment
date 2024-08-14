@@ -13,8 +13,6 @@ type Props = {
 
 export default function Filters({ categories, selectedFilter }: Props) {
 
-  // console.log('s', selectedFilter)
-
   // Horizontal scroll
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const scrollAmount = 200
