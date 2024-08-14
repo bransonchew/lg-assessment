@@ -15,8 +15,6 @@ const postSearchSchema = z.object({
   filter: z.string().catch('').optional(),
 })
 
-export type PostSearch = z.infer<typeof postSearchSchema>
-
 // Route config
 export const Route = createFileRoute('/')({
   component: PostsLayout,
@@ -27,7 +25,7 @@ export const Route = createFileRoute('/')({
   // Search params
   loaderDeps: ({ search: { filter } }) => ({ filter }),
   loader: async () => ({
-    categories: await getCategories(),
+    categories: await getCategories(),  // critical data
   }),
   staleTime: Infinity,  // categories rarely change
 })
@@ -43,7 +41,6 @@ function PostsLayout() {
   // Infinite querying / Load more
   const {
     data,
-    // error,
     fetchNextPage,
     hasNextPage,
     isFetching,
@@ -62,7 +59,7 @@ function PostsLayout() {
     <div className="flex flex-col items-center p-8 pt-3 sm:pt-8 gap-6 sm:gap-8">
 
       {/*Category select*/ }
-      <div className="w-full max-w-3xl sticky top-0 bg-white">
+      <div className="w-full max-w-3xl sticky top-0">
         <Filters categories={ categories } selectedFilter={ filter }/>
       </div>
 

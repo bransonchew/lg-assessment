@@ -32,7 +32,7 @@ export function makeServer({ environment = 'test' } = {}) {
     routes() {
       this.namespace = 'api'
 
-      this.get('/posts/:id', { timing: 500 })
+      this.get('/posts/:id', { timing: 1500 })
 
       this.get('/posts', (schema, request) => {
         // Search params
@@ -53,7 +53,7 @@ export function makeServer({ environment = 'test' } = {}) {
           data: posts.models.slice(cursor, nextCursor),
           nextCursor: nextCursor < posts.models.length ? nextCursor : null,
         }
-      }, { timing: 1000 })
+      }, { timing: 2500 })
 
       this.get('/categories', schema => {
         return schema.categories.all().models
