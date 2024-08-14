@@ -11,7 +11,7 @@ export default function Header() {
           Median
         </Link>
       </nav>
-      <div className="flex items-center gap-8">
+      <div className="flex items-center gap-3 sm:gap-8">
         <ModeToggle/>
         <Button className="rounded-3xl">Sign in</Button>
       </div>

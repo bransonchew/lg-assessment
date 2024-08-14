@@ -17,6 +17,7 @@ export const Route = createFileRoute('/$postId')({
   loader: ({ params }) => ({
     postPromise: defer(getPost(params.postId)),
   }),
+  staleTime: 30_000,
 })
 
 function Post() {
@@ -27,19 +28,19 @@ function Post() {
     <Suspense fallback={ <PostSkeleton/> }>
       <Await promise={ postPromise }>
         { post => (
-          <div className="grid items-center gap-16 max-w-2xl px-6 py-12 mx-auto">
+          <div className="grid items-center gap-10 sm:gap-16 max-w-2xl px-6 py-12 mx-auto">
 
             {/*Summary*/ }
-            <div className="space-y-10">
+            <div className="space-y-6 sm:space-y-10">
 
               {/*Title*/ }
               <div className="space-y-5">
-                <div className="text-5xl font-bold capitalize">
+                <h1 className="text-3xl sm:text-5xl font-bold capitalize">
                   { post.title }
-                </div>
-                <p className="text-2xl font-light text-muted-foreground">
+                </h1>
+                <h2 className="text-lg sm:text-2xl font-light text-muted-foreground">
                   { post.summary }
-                </p>
+                </h2>
               </div>
 
               {/*Author*/ }
@@ -102,7 +103,7 @@ function Post() {
             </div>
 
             {/*Content*/ }
-            <p className="font-serif text-xl tracking-wide leading-relaxed antialiased">
+            <p className="text-lg sm:text-xl font-serif tracking-wider antialiased">
               { lorem }
             </p>
 

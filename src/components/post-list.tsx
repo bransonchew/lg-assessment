@@ -9,7 +9,7 @@ import { Bookmark, Ellipsis } from 'lucide-react'
 export default function PostList({ posts }: { posts: Post[] }) {
   return (
     <div className="divide-y">
-      { posts.map((post, index) => (
+      { posts.map(post => (
         <div key={ post.id } className="pt-6 pb-3">
 
           {/*Post Link*/ }
@@ -27,19 +27,20 @@ export default function PostList({ posts }: { posts: Post[] }) {
             </div>
 
             {/*Post Details*/ }
-            <div className="flex justify-between gap-6">
+            <div className="flex justify-between gap-6 sm:gap-8">
 
               {/*Post Text*/ }
               <div className="grow">
-                <div className="text-2xl font-bold capitalize mb-3">
+                <h1 className="text-xl sm:text-2xl font-bold capitalize mb-3">
                   { post.title }
-                </div>
-                <p className="text-muted-foreground mb-6">
+                </h1>
+                <h2 className="text-muted-foreground mb-6 line-clamp-2 antialiased">
                   { post.summary }
-                </p>
-                <div className="flex justify-between items-center mr-3 text-muted-foreground">
+                </h2>
+
+                {/*Desktop Actions*/ }
+                <div className="hidden sm:flex justify-between items-center mr-6 text-muted-foreground">
                   <span className="text-sm">
-                    <span>{ index + 1 }</span>
                     { formatDate(new Date(post.publishDate)) }
                   </span>
                   <div>
@@ -54,15 +55,28 @@ export default function PostList({ posts }: { posts: Post[] }) {
               </div>
 
               {/*Post Image*/ }
-              <div className="flex-none">
+              <div className="flex-none aspect-[3/2] w-20 sm:w-36">
                 <img
                   src={ `https://picsum.photos/seed/${ post.id }/1200/800` }
                   alt={ post.title }
-                  width={ 150 }
-                  height={ 100 }
                 />
               </div>
 
+            </div>
+
+            {/*Mobile Actions*/ }
+            <div className="flex sm:hidden justify-between items-center text-muted-foreground">
+              <span className="text-sm">
+                { formatDate(new Date(post.publishDate)) }
+              </span>
+              <div>
+                <Button variant="ghost" size="icon" aria-label="bookmark" className="hover:bg-inherit">
+                  <Bookmark strokeWidth={ 1 }/>
+                </Button>
+                <Button variant="ghost" size="icon" aria-label="more" className="hover:bg-inherit">
+                  <Ellipsis/>
+                </Button>
+              </div>
             </div>
 
           </Link>

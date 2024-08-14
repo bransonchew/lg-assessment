@@ -55,13 +55,13 @@ function PostsLayout() {
     queryFn: p => getPosts({ ...p, filter }),
     initialPageParam: 0,
     getNextPageParam: lastPage => lastPage.nextCursor,
-    staleTime: 60_000,  // revalidate after 60 seconds
+    staleTime: 600_000,  // revalidate after 60 seconds
   })
 
   return (
-    <div className="flex flex-col items-center p-8 gap-8">
+    <div className="flex flex-col items-center p-8 pt-3 sm:pt-8 gap-6 sm:gap-8">
 
-      {/*Category select*/}
+      {/*Category select*/ }
       <div className="w-full max-w-3xl sticky top-0 bg-white">
         <Filters categories={ categories } selectedFilter={ filter }/>
       </div>
